@@ -1,0 +1,36 @@
+{
+  "name": "ms-policy",
+  "version": "1.0.0",
+  "description": "micro servicio para la gestión de polizas",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "dev": "tsx watch src/app/server/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aPataPela/ms-policy.git"
+  },
+  "keywords": [
+    "ms-policy"
+  ],
+  "author": "Claudia Vallejos Silva",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aPataPela/ms-policy/issues"
+  },
+  "homepage": "https://github.com/aPataPela/ms-policy#readme",
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.7.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "awilix": "^12.0.5",
+    "awilix-express": "^9.0.2",
+    "express": "^5.1.0"
+  }
+}
