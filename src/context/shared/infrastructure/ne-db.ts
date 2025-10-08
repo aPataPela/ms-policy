@@ -4,7 +4,7 @@ import fs from "fs";
 import path from "path";
 import { randomUUID } from "crypto";
 
-type Options = {
+export type NeDBOptions = {
   filename?: string;
   key?: string;
   inMemoryOnly?: boolean;
@@ -15,7 +15,7 @@ export class NeDBClient<T> {
   protected db: Datastore<Record<string, unknown>>;
   private readonly key: string;
 
-  constructor({ filename = path.join(process.cwd(), "data", "collection.db"), key = "id", inMemoryOnly = false, autoload = true }: Options = {}) {
+  constructor({ filename = path.join(process.cwd(), "data", "collection.db"), key = "id", inMemoryOnly = false, autoload = true }: NeDBOptions = {}) {
     this.key = key;
 
     if (!inMemoryOnly) {
