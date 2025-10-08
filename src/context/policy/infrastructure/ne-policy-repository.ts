@@ -11,7 +11,7 @@ export class NePolicyRepository extends NeDBClient<Policy> implements PolicyRepo
     const query = criteria.toQuery();
     const policies = await this.all(query as Partial<Policy>).catch((err) => { throw Error(`<${this.constructor}> Search:  ${err}`) });
     if (!policies) return null;
-    return policies;
+    return policies.map((policy) => Policy.create(policy.id, policy.rutTitular, policy.fechaEmision, policy.planSalud, policy.prima, policy.estado));
   }
 
   async update(policyAttr: Partial<Policy>, criteria: PolicySearchCriteria): Promise<void> {

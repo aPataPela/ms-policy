@@ -1,6 +1,8 @@
 import type { NextFunction, Request, Response } from "express";
 import { core, z } from "zod";
 
+const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
+
 const policyCreateSchema = z.object({
   id: z.uuidv7(),
   rutTitular: z.string().min(10, { message: "rutTitular must be at least 10 digits" }),
@@ -8,8 +10,8 @@ const policyCreateSchema = z.object({
     if (value instanceof Date && !Number.isNaN(value.getTime())) {
       return value;
     }
-    if (typeof value === "string") {
-      const parsed = new Date(value);
+    if (typeof value === "string" && DATE_REGEX.test(value)) {
+      const parsed = new Date(`${value}T00:00:00.000Z`);
       if (!Number.isNaN(parsed.getTime())) {
         return parsed;
       }
@@ -52,7 +54,7 @@ const REQUIRED_MESSAGES: Record<string, string> = {
 const TYPE_MESSAGES: Record<string, string> = {
   id: "id must be a uuidv7",
   rutTitular: "rutTitular must be a string",
-  fechaEmision: "fechaEmision must be a valid date string or Date instance",
+  fechaEmision: "fechaEmision must match format YYYY-MM-DD",
   planSalud: "planSalud must be a string",
   prima: "prima must be a number",
   estado: "estado must be a valid status",

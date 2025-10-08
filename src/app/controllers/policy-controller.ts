@@ -13,8 +13,8 @@ export const policyController = (
   },
   searchByCriteria: async (req: Request, res: Response) => {
     const id = req.params?.id || null;
-    const queryParam = req.query || null
-    const policy = await policySearcher.run({ ...queryParam, id });
+    const queryParam = res.locals.policySearch ?? req.query ?? null;
+    const policy = await policySearcher.run(queryParam ? { ...queryParam, id } : { id });
     res.status(200).send(policy);
   },
   update: async (req: Request, res: Response) => {

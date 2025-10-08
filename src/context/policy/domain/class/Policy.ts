@@ -3,12 +3,12 @@ import { UUID } from 'node:crypto';
 type PolicyStatus = "emitida" | "activa" | "anulada";
 export class Policy {
   constructor(
-    private readonly id: UUID,
-    private readonly rutTitular: string,
-    private readonly fechaEmision: Date,
-    private readonly planSalud: string,
-    private readonly prima: number,
-    private readonly estado: PolicyStatus,
+    readonly id: UUID,
+    readonly rutTitular: string,
+    readonly fechaEmision: Date,
+    readonly planSalud: string,
+    readonly prima: number,
+    readonly estado: PolicyStatus,
   ) { }
 
   static create(
