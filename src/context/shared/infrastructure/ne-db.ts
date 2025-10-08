@@ -12,7 +12,7 @@ type Options = {
 };
 
 export class NeDBClient<T> {
-  protected db: Datastore<T>;
+  protected db: Datastore<Record<string, unknown>>;
   private readonly key: string;
 
   constructor({ filename = path.join(process.cwd(), "data", "collection.db"), key = "id", inMemoryOnly = false, autoload = true }: Options = {}) {
@@ -22,7 +22,7 @@ export class NeDBClient<T> {
       fs.mkdirSync(path.dirname(filename), { recursive: true });
     }
 
-    this.db = Datastore.create<T>({ filename, autoload, inMemoryOnly });
+    this.db = Datastore.create({ filename, autoload, inMemoryOnly }) as Datastore<T & { _id: string }>;
     void this.db.ensureIndex({ fieldName: this.key, unique: true });
   }
 
@@ -31,11 +31,11 @@ export class NeDBClient<T> {
   }
 
   async all(query: Partial<T> = {}): Promise<T[]> {
-    return this.db.find(query);
+    return this.db.find(query as Record<string, unknown>) as Promise<T[]>;
   }
 
   async findOne(id: string): Promise<T | null> {
-    return this.db.findOne(this.byKey(id));
+    return this.db.findOne(this.byKey(id)) as Promise<T | null>;
   }
 
   async insert(doc: T): Promise<T> {
@@ -46,12 +46,12 @@ export class NeDBClient<T> {
       copy[k] = randomUUID();
     }
     const toInsert = copy as unknown as T;
-    await this.db.insert(toInsert);
+    await this.db.insert(toInsert as Record<string, unknown>);
     return toInsert;
   }
 
   async updateOne(filter: Partial<T>, patch: Partial<T>): Promise<T> {
-    const target = await this.db.findOne(filter);
+    const target = await this.db.findOne(filter as Record<string, unknown>);
     if (!target) {
       throw new Error(`<${this.constructor}> updateOne: Not found for filter: ${JSON.stringify(filter)}`);
     }
@@ -72,6 +72,6 @@ export class NeDBClient<T> {
   }
 
   async count(query: Partial<T> = {}): Promise<number> {
-    return this.db.count(query);
+    return this.db.count(query as Record<string, unknown>);
   }
 }
