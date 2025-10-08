@@ -9,8 +9,15 @@ export const policyController = (
     await policyCreator.run(req.body)
     res.status(201).send('inserted');
   },
+  searchById: async (req: Request, res: Response) => {
+    const id = req.params?.id || null;
+    const policy = await policySearcher.run({ id });
+    res.status(200).send(policy);
+  },
   search: async (req: Request, res: Response) => {
-    const policy = await policySearcher.run();
+    const id = req.params?.id || null;
+    const queryParam = req.query || null
+    const policy = await policySearcher.run({ ...queryParam, id });
     res.status(200).send(policy);
   },
 });
