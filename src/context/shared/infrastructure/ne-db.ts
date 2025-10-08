@@ -50,10 +50,20 @@ export class NeDBClient<T> {
     return toInsert;
   }
 
-  async updateOne(id: string, patch: Partial<T>): Promise<T> {
-    await this.db.update(this.byKey(id), { $set: patch }, { multi: false });
-    const updated = await this.findOne(id);
-    if (!updated) throw new Error(`Not found: ${id}`);
+  async updateOne(filter: Partial<T>, patch: Partial<T>): Promise<T> {
+    const target = await this.db.findOne(filter);
+    if (!target) {
+      throw new Error(`<${this.constructor}> updateOne: Not found for filter: ${JSON.stringify(filter)}`);
+    }
+
+    const identifier = (target as unknown as Record<string, unknown>)[this.key];
+    if (typeof identifier !== "string" || identifier.length === 0) {
+      throw new Error(`<${this.constructor}> updateOne: Unable to determine key "${this.key}" from target`);
+    }
+
+    await this.db.update(this.byKey(identifier), { $set: patch }, { multi: false });
+    const updated = await this.findOne(identifier);
+    if (!updated) throw new Error(`<${this.constructor}> updateOne: Not found: ${identifier}`);
     return updated;
   }
 
