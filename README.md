@@ -43,3 +43,10 @@ Cada endpoint está mediado por middlewares de validación basados en **Zod**, q
 3. **Build**: `npm run build`
 
 La base de datos (`data/collection.db`) se inicializa automáticamente mediante NeDB. Puedes limpiar la data borrando el archivo (en caliente si el proceso está detenido) para iniciar con un dataset vacío.
+
+## Pruebas
+- **Framework:** [Vitest](https://vitest.dev/) con entorno Node (`npm test` ejecuta `vitest run`, `npm run test:watch` lo lanza en modo interactivo).
+- **Cobertura actual:**
+  - `tests/policy.domain.test.ts`: asegura que `Policy.create` construye instancias con todos los atributos esperados y que cada póliza es independiente.
+  - `tests/ne-policy-repository.test.ts`: ejercita el repositorio `NePolicyRepository` usando NeDB en memoria, validando creación, búsqueda por `id` y actualización del campo `estado`.
+- Las pruebas del repositorio usan opciones `{ inMemoryOnly: true }`, por lo que no tocan el archivo `data/collection.db`.
