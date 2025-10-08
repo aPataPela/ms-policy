@@ -13,4 +13,9 @@ export class NePolicyRepository extends NeDBClient<Policy> implements PolicyRepo
     if (!policies) return null;
     return policies;
   }
+
+  async update(policyAttr: Partial<Policy>, criteria: PolicySearchCriteria): Promise<void> {
+    const query = criteria.toQuery();
+    await this.updateOne(query, policyAttr);
+  }
 }

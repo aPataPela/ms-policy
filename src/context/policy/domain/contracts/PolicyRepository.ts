@@ -4,4 +4,5 @@ import { PolicySearchCriteria } from '../criteria/policy-search-criteria';
 export interface PolicyRepository {
   create(policy: Policy): Promise<void>;
   search(criteria: PolicySearchCriteria): Promise<Policy[] | null>;
+  update(policy: Partial<Policy>, criteria: PolicySearchCriteria): Promise<void>;
 }
