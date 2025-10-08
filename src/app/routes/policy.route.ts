@@ -8,5 +8,6 @@ export function policyRoutes() {
 
   r.post("/", controller("create"));
   r.get("/", controller("search"));
+  r.get("/:id", controller("search"));
   return r;
 }
