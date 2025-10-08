@@ -7,5 +7,6 @@ export function policyRoutes() {
   const controller = makeInvoker(policyController);
 
   r.post("/", controller("create"));
+  r.get("/", controller("search"));
   return r;
 }
