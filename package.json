@@ -4,7 +4,7 @@
   "description": "micro servicio para la gestión de polizas",
   "main": "index.js",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json && node dist/app/server/index.js",
     "start": "node dist/index.js",
     "dev": "tsx watch src/app/server/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
